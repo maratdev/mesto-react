@@ -7,19 +7,19 @@ export default function Main(props) {
                 <button onClick={props.handleEditAvatarClick} className="profile__avatar-btn" type="button">
                     <img
                         className="profile__avatar"
-                        src={avatar}
+                        src={props.userAvatar}
                         alt="Аватарка"
                     />
                 </button>
                 <div className="profile__info">
-                    <h1 className="profile__name" />
+                    <h1 className="profile__name">{props.name}</h1>
                     <button
                         onClick={props.handleEditProfileClick}
                         aria-label="Редактировать профиль"
                         type="button"
                         className="profile__edit-btn"
                     />
-                    <p className="profile__subtitle" />
+                    <p className="profile__subtitle" > {props.about}</p>
                 </div>
                 <button
                     onClick={props.handleAddPlaceClick}

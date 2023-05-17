@@ -15,14 +15,25 @@ function App() {
     const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
-
     function closeAllPopups() {
         setIsEditProfilePopupOpen(false);
         setIsAddCardPopupOpen(false);
         setIsEditAvatarPopupOpen(false);
         setIsConfirmDelCardPopupOpen(false);
-       // setSelectedCard({});
     }
+    // Api->
+    const [currentUser, setCurrentUser] = useState([]);
+   useEffect(() => {
+        api.getDataUser()
+            .then((userData) => {
+                console.log(userData)
+                setCurrentUser(userData);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     return (
       <>
         <Header/>
@@ -31,6 +42,9 @@ function App() {
             handleAddPlaceClick={setIsAddCardPopupOpen}
             handleEditAvatarClick={setIsEditAvatarPopupOpen}
             handleConfirmDelCard={setIsConfirmDelCardPopupOpen}
+            name={currentUser.name}
+            about={currentUser.about}
+            userAvatar={currentUser.avatar}
         />
         <Footer/>
         {/*  Popup редактировать профиль*/}
