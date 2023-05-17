@@ -32,9 +32,10 @@
   - ООП
   - Классовый JS
   - JSON
-  - Промисы (Promise);
+  - Промисы;
   - API (Fetch)
 - [ReactJS](https://ru.legacy.reactjs.org/)
+  - Реакт-хуки
 - Git
 - Figma
 - Webpack
@@ -46,7 +47,7 @@
 * [Figma 10-го спринта](https://www.figma.com/file/PSdQFRHoxXJFs2FH8IXViF/JavaScript.-Sprint-9)
 
 **📄 Чеклисты:**
-* [Чеклист 10-го спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-9.pdf)
+* [Чеклист 10-го спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-10.pdf)
 
 **🌐 Проект на GitHub Pages:**
 * [gh-pages](https://maratdev.github.io/mesto/)
@@ -57,7 +58,7 @@
 
 Склонировано из репозитория:
 ```bash
-git clone https://github.com/yandex-praktikum/mesto
+git clone https://github.com/yandex-praktikum/mesto-react
 ```
 
 👤 **Автор**

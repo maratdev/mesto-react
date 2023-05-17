@@ -1,5 +1,5 @@
 import logo from '../images/logo.svg';
-export default function Header() {
+export default function Header(props) {
     return (
         <header className="header page__header">
             <img

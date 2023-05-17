@@ -5,14 +5,23 @@ import Footer from "./Footer";
 import EditProfilePopup from "./EditProfilePopup";
 import AddCardPopup from "./AddCardPopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import ImagePopup from "./ImagePopup";
+import PopupWithForm from "./PopupWithForm";
+import api from "../utils/Api";
+
 function App() {
+    // Попапы
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+    const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
+
     function closeAllPopups() {
         setIsEditProfilePopupOpen(false);
         setIsAddCardPopupOpen(false);
         setIsEditAvatarPopupOpen(false);
+        setIsConfirmDelCardPopupOpen(false);
+       // setSelectedCard({});
     }
     return (
       <>
@@ -21,6 +30,7 @@ function App() {
             handleEditProfileClick={setIsEditProfilePopupOpen}
             handleAddPlaceClick={setIsAddCardPopupOpen}
             handleEditAvatarClick={setIsEditAvatarPopupOpen}
+            handleConfirmDelCard={setIsConfirmDelCardPopupOpen}
         />
         <Footer/>
         {/*  Popup редактировать профиль*/}
@@ -29,45 +39,29 @@ function App() {
             onClose={closeAllPopups}
         />
           {/*  Popup добавление новой карточки*/}
-          <AddCardPopup
-              isOpen={isAddCardPopupOpen}
-              onClose={closeAllPopups}
-          />
+        <AddCardPopup
+          isOpen={isAddCardPopupOpen}
+          onClose={closeAllPopups}
+        />
           {/*  Popup редактирования аватарки*/}
-          <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-          />
-
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        />
 
         {/*  Popup изображения*/}
-        <div className="popup popup_img-card">
-          <div className="popup__img-container">
-            <button
-                aria-label="Закрыть Popup"
-                type="button"
-                className="popup__close"
-            />
-            <img className="popup__zoom-image" src="src/components/App#" alt="" />
-            <h3 className="popup__zoom-title" />
-          </div>
-        </div>
+        <ImagePopup
+          onClose={closeAllPopups}
+        />
         {/*  Popup удаления карточки*/}
-        <div className="popup popup_del-card">
-          <div className="popup__container">
-            <button
-                type="button"
-                className="popup__close"
-                aria-label="Закрыть Popup"
-            />
-            <h3 className="popup__title">Вы уверены?</h3>
-            <form className="form " name="popup__form-del-card" noValidate="">
-              <button className="form__input-btn form__del-btn" type="submit">
-                Да
-              </button>
-            </form>
-          </div>
-        </div>
+          <PopupWithForm
+              isOpen={isConfirmDelCardPopupOpen}
+              name="del-card"
+              title="Вы уверены?"
+              button="Да"
+              class="true"
+              onClose={closeAllPopups}
+          ></PopupWithForm>
 
 
         {/*-------------------------------------------------TEMPLATE */}

@@ -15,7 +15,7 @@ export default function PopupWithForm( props ) {
                     noValidate=""
                 >
                     {props.children}
-                    <button className="form__input-btn" type="submit">
+                    <button className={`form__input-btn ${props.class ? 'form__del-btn' : ''}`} type="submit">
                         {props.button}
                     </button>
                 </form>

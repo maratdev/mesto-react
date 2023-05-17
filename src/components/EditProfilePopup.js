@@ -5,9 +5,10 @@ export default function EditProfilePopup( props ) {
         <PopupWithForm
             name="edit-user"
             title="Редактировать профиль"
+            button="Сохранить"
             isOpen={props.isOpen}
             onClose={props.onClose}
-            button="Сохранить"
+
         >
             <input
                 id="name-input"
