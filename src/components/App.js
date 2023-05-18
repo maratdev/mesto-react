@@ -6,7 +6,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import AddCardPopup from "./AddCardPopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
-import PopupWithForm from "./PopupWithForm";
+import ConfirmDeletePopup from './ConfirmDeletePopup'
 import api from "../utils/Api";
 import { CurrentUserContext } from "../context/CurrentUserContext";
 
@@ -16,10 +16,34 @@ function App() {
     const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
-
-    const [selectedCard, setSelectedCard] = React.useState(false);
+    const [selectedCard, setSelectedCard] = useState(false);
     const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
+    const [cardId, setCardId] = useState('');
+    const handlePopup = isEditProfilePopupOpen || isAddCardPopupOpen || isEditAvatarPopupOpen || selectedCard
+
+    // Попап закрытие по ESC и оверлею
+    useEffect(() => {
+        function closeByEscape(evt) {
+            if(evt.key === 'Escape') {
+                closeAllPopups();
+            }
+        }
+        const handleOverlay = (evt) => {
+            if (evt.target.classList.contains('popup_opened')) {
+                closeAllPopups();
+            }
+        };
+
+        if(handlePopup) { // навешиваем только при открытии
+            document.addEventListener('keydown', closeByEscape);
+            document.addEventListener('mousedown', handleOverlay);
+                return () => {
+                document.removeEventListener('keydown', closeByEscape);
+                document.removeEventListener('mousedown', handleOverlay);
+                }
+        }
+    }, [handlePopup])
 
 
     function closeAllPopups() {
@@ -30,8 +54,8 @@ function App() {
         setSelectedCard(null);
     }
 
-    // Api-> UserInfo
 
+    // Инициализация User info
     useEffect(() => {
         api.getDataUser()
             .then((userData) => {
@@ -42,13 +66,11 @@ function App() {
             });
     }, []);
 
-    // Api-> Card
-
+    // Инициализация Card
     useEffect(() => {
         api.getInitialCards()
             .then((initialCards) => {
                 setCards(initialCards);
-                //console.log(initialCards)
             })
             .catch((err) => {
                 console.log(err);
@@ -58,7 +80,7 @@ function App() {
     function handleCardClick(card) {
         setSelectedCard(card);
     }
-    // Api-> Like
+    // Api---------------------------------------------------------> Like
     function handleCardLike(cardId, likes) {
         const isLiked = likes.some((i) => i._id === currentUser._id);
         api.changeLikeCardStatus(cardId, !isLiked)
@@ -67,15 +89,28 @@ function App() {
                 console.log(err);
             });
     }
-
-    function handleCardDelete(cardId) {
+    // Api---------------------------------------------------------> Удаление карточки
+    const submitButton = document.querySelector('.form__del-btn')
+    function handleCardDelete() {
+       // console.log(cardId)
         api.deleteCard(cardId)
-            .then(() => { setCards((state) => state.filter((card) => card._id !== cardId));})
+            .then(() => { setCards(cards.filter(item => item._id !== cardId))})
             .catch((error) => {
                 console.log(error);
-            });
+            })
+            .finally(() => {
+                closeAllPopups();
+                submitButton.textContent = 'Да';
+            })
+
     }
 
+    function handleCardDeleteClick(card) {
+        setCardId(card);
+        setIsConfirmDelCardPopupOpen(true);
+    }
+
+    // Api---------------------------------------------------------> Изменение данных пользователя
     function handleUpdateUser(userData) {
         api.saveDataInfo(userData)
             .then((updateUser) => {
@@ -86,7 +121,7 @@ function App() {
                 console.log(error);
             });
     }
-
+    // Api---------------------------------------------------------> Изменение аватара
     function handleUpdateAvatar(userData) {
         api.saveDataProfile(userData)
             .then((userAvatar) => {
@@ -98,13 +133,14 @@ function App() {
             });
     }
 
+    // Api---------------------------------------------------------> Добавление карточки
     function handleAddPlaceSubmit(inputValues) {
         api.saveCardInfo(inputValues).then(cardData => {
             setCards([cardData, ...cards]);
-
             closeAllPopups();
         }).catch(error => console.log(error));
     }
+
 
     return (
       <>
@@ -114,15 +150,10 @@ function App() {
             handleEditProfileClick={setIsEditProfilePopupOpen}
             handleAddPlaceClick={setIsAddCardPopupOpen}
             handleEditAvatarClick={setIsEditAvatarPopupOpen}
-            handleConfirmDelCard={setIsConfirmDelCardPopupOpen}
-
-            userName={currentUser.name}
-            userDescription={currentUser.about}
-            userAvatar={currentUser.avatar}
 
             onCardLike={handleCardLike}
 
-            onCardDelete={handleCardDelete}
+            onCardDeleteClick={handleCardDeleteClick}
 
             onCardClick={handleCardClick}
             cards={cards}
@@ -151,16 +182,15 @@ function App() {
         <ImagePopup
           onClose={closeAllPopups}
         />
-        {/*  Popup удаления карточки*/}
-          <PopupWithForm
-              isOpen={isConfirmDelCardPopupOpen}
-              name="del-card"
-              title="Вы уверены?"
-              button="Да"
-              class="true"
-              onClose={closeAllPopups}
-          ></PopupWithForm>
 
+        {/*  Popup удаления карточки*/}
+
+          <ConfirmDeletePopup
+              isOpen={isConfirmDelCardPopupOpen}
+              onClose={closeAllPopups}
+              onConfirm={handleCardDelete}
+          >
+          </ConfirmDeletePopup>
           <ImagePopup
               card={selectedCard}
               onClose={closeAllPopups}>
