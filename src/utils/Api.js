@@ -53,21 +53,15 @@ class Api {
             .then(this._getResponseData);
     }
 
-    addLike(cardId) {
+
+    changeLikeCardStatus(cardId, isLiked) {
+        const method = isLiked ? "PUT" : "DELETE";
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             headers: this._headers,
-            method: 'PUT',
-        })
-            .then(this._getResponseData);
+            method: method,
+        }).then(this._getResponseData);
     }
 
-    deleteLike(cardId) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            headers: this._headers,
-            method: 'DELETE',
-        })
-            .then(this._getResponseData);
-    }
 
     saveDataProfile(profileAvatar) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {

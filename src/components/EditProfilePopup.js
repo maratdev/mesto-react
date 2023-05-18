@@ -1,5 +1,4 @@
 import PopupWithForm from "./PopupWithForm";
-
 export default function EditProfilePopup( props ) {
     return (
         <PopupWithForm
