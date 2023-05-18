@@ -24,7 +24,7 @@ class Api {
             headers: this._headers,
             method: 'PATCH',
             body: JSON.stringify({
-                name: profileInfo.name,
+                name: profileInfo.userName,
                 about: profileInfo.about
             })
         })
@@ -67,7 +67,7 @@ class Api {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             headers: this._headers,
             method: 'PATCH',
-            body: JSON.stringify({ avatar: profileAvatar.updInput })
+            body: JSON.stringify({ avatar: profileAvatar.avatar })
         })
             .then(this._getResponseData);
     }
@@ -75,10 +75,10 @@ class Api {
 
 
 const api = new Api({
-    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-63",
+    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-64",
     headers: {
-        authorization: "a0f27208-1338-40bf-beb2-4ac5a9a59cf6",
-        "Content-Type": "application/json",
+        authorization: "145c396a-49e7-4abb-9010-fec05cae083b",
+        "Content-Type": "application/json; character=UTF-8",
     },
 });
 

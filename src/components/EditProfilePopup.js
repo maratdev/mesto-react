@@ -4,7 +4,7 @@ import { CurrentUserContext } from "../context/CurrentUserContext";
 
 export default function EditProfilePopup( props, isOpen ) {
 
-    const [name, setName] = React.useState("");
+    const [userName, setName] = React.useState("");
     const [description, setDescription] = React.useState("");
     const currentUser = React.useContext(CurrentUserContext);
 
@@ -24,7 +24,7 @@ export default function EditProfilePopup( props, isOpen ) {
         evt.preventDefault();
 
         props.onUpdateUser({
-            name,
+            userName,
             about: description,
         });
     }
@@ -44,7 +44,7 @@ export default function EditProfilePopup( props, isOpen ) {
                 id="name-input"
                 className="form__input form__input_string_name"
                 type="text"
-                value={name}
+                value={userName}
                 onChange={handleSetName}
                 name="user_name"
                 placeholder="Ваше имя"
