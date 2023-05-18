@@ -1,6 +1,31 @@
+import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddCardPopup( props ) {
+export default function AddCardPopup(props, isOpen ) {
+    const [name, setName] = React.useState('');
+    const [link, setLink] = React.useState('');
+
+    React.useEffect(() => {
+        setName('');
+        setLink('');
+    }, [isOpen]);
+
+    function handleNameChange(evt) {
+        setName(evt.target.value);
+    }
+
+    function handleLinkChange(evt) {
+        setLink(evt.target.value);
+    }
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        props.handleAddPlaceClick({
+            name: name,
+            link: link,
+        });
+    }
+
     return (
         <PopupWithForm
             name="add-card"
@@ -8,12 +33,15 @@ export default function AddCardPopup( props ) {
             button="Создать"
             isOpen={props.isOpen}
             onClose={props.onClose}
+            onSubmit={handleSubmit}
         >
 
             <input
                 id="image-input"
                 className="form__input form__input_string_place"
                 type="text"
+                onChange={handleNameChange}
+                defaultValue={name}
                 name="card_name"
                 placeholder="Название"
                 maxLength={30}
@@ -24,8 +52,10 @@ export default function AddCardPopup( props ) {
             <input
                 id="src-input"
                 className="form__input form__input_string_src"
-                defaultValue="https://loremflickr.com/g/1080/720/paris"
+                defaultValue={link}
                 type="url"
+                onChange={handleLinkChange}
+                //https://loremflickr.com/g/1080/720/paris
                 name="card_src"
                 placeholder="Ссылка на картинку"
                 required

@@ -32,13 +32,13 @@ class Api {
     }
 
     saveCardInfo(cardInfo) {
-//    console.log('API:' + cardInfo)
+    console.log('API:' + JSON.stringify(cardInfo))
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers,
             method: 'POST',
             body: JSON.stringify({
-                name: cardInfo.card_name,
-                link: cardInfo.card_src
+                name: cardInfo.name,
+                link: cardInfo.link
             })
         })
             .then(this._getResponseData);

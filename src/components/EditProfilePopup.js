@@ -44,7 +44,7 @@ export default function EditProfilePopup( props, isOpen ) {
                 id="name-input"
                 className="form__input form__input_string_name"
                 type="text"
-                value={userName}
+                defaultValue={userName}
                 onChange={handleSetName}
                 name="user_name"
                 placeholder="Ваше имя"
@@ -57,7 +57,7 @@ export default function EditProfilePopup( props, isOpen ) {
                 className="form__input form__input_string_job"
                 type="text"
                 name="user_job"
-                value={description}
+                defaultValue={description}
                 onChange={handleSetDescription}
                 placeholder="О себе"
                 maxLength={200}

@@ -13,7 +13,7 @@ export default function PopupWithForm( props ) {
                     className={`form form_${props.name}`}
                     name={`popup__form-${props.name}`}
                     onSubmit={props.onSubmit}
-                    noValidate=""
+                    noValidate
                 >
                     {props.children}
                     <button className={`form__input-btn ${props.class ? 'form__del-btn' : ''}`} type="submit">

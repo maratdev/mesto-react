@@ -98,6 +98,14 @@ function App() {
             });
     }
 
+    function handleAddPlaceSubmit(inputValues) {
+        api.saveCardInfo(inputValues).then(cardData => {
+            setCards([cardData, ...cards]);
+
+            closeAllPopups();
+        }).catch(error => console.log(error));
+    }
+
     return (
       <>
           <CurrentUserContext.Provider value={currentUser}>
@@ -130,6 +138,7 @@ function App() {
         <AddCardPopup
           isOpen={isAddCardPopupOpen}
           onClose={closeAllPopups}
+          handleAddPlaceClick={handleAddPlaceSubmit}
         />
           {/*  Popup редактирования аватарки*/}
         <EditAvatarPopup
