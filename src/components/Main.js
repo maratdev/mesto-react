@@ -1,14 +1,18 @@
+import React from "react";
 import Card from "./Card";
+
 import { CurrentUserContext } from "../context/CurrentUserContext";
 
 export default function Main(props) {
+    const currentUser = React.useContext(CurrentUserContext);
+
     return (
         <main>
             <section className="profile page__profile">
                 <button onClick={props.handleEditAvatarClick} className="profile__avatar-btn" type="button">
                     <img
                         className="profile__avatar"
-                        src={props.userAvatar}
+                        src={currentUser.userAvatar}
                         alt="Аватарка"
                     />
                 </button>
@@ -40,7 +44,7 @@ export default function Main(props) {
                         likes={card.likes}
                         onCardLike={props.onCardLike}
                         cardId={card._id}
-
+                        onCardDelete={props.onCardDelete}
                         onCardClick={props.onCardClick}
                     />
                     ))}

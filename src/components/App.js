@@ -61,27 +61,31 @@ function App() {
     // Api-> Like
     function handleCardLike(cardId, likes) {
         const isLiked = likes.some((i) => i._id === currentUser._id);
-        api
-            .changeLikeCardStatus(cardId, !isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((c) => (c._id === cardId ? newCard : c)));
-            })
+        api.changeLikeCardStatus(cardId, !isLiked)
+            .then((newCard) => {setCards((state) => state.map((element) => (element._id === cardId ? newCard : element)));})
             .catch((err) => {
                 console.log(err);
             });
     }
 
     function handleCardDelete(cardId) {
-        api
-            .deleteCard(cardId)
-            .then(() => {
-                setCards((state) => state.filter((card) => card._id !== cardId));
-            })
+        api.deleteCard(cardId)
+            .then(() => { setCards((state) => state.filter((card) => card._id !== cardId));})
             .catch((error) => {
                 console.log(error);
             });
     }
 
+    function handleUpdateUser(userData) {
+        api.saveDataInfo(userData)
+            .then((updateUser) => {
+                setCurrentUser(updateUser);
+                closeAllPopups();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     return (
       <>
@@ -107,6 +111,7 @@ function App() {
         <Footer/>
         {/*  Popup редактировать профиль*/}
         <EditProfilePopup
+            onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
         />

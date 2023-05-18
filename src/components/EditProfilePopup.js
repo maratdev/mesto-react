@@ -1,5 +1,35 @@
+import React from "react";
 import PopupWithForm from "./PopupWithForm";
-export default function EditProfilePopup( props ) {
+import { CurrentUserContext } from "../context/CurrentUserContext";
+
+export default function EditProfilePopup( props, isOpen ) {
+
+    const [name, setName] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const currentUser = React.useContext(CurrentUserContext);
+
+    React.useEffect(() => {
+        setName(currentUser.name);
+        setDescription(currentUser.about);
+    }, [currentUser, isOpen]);
+
+    function handleSetName(evt) {
+        setName(evt.target.value);
+    }
+    function handleSetDescription(evt) {
+        setDescription(evt.target.value);
+    }
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+
+        props.onUpdateUser({
+            name,
+            about: description,
+        });
+    }
+
+
     return (
         <PopupWithForm
             name="edit-user"
@@ -7,12 +37,15 @@ export default function EditProfilePopup( props ) {
             button="Сохранить"
             isOpen={props.isOpen}
             onClose={props.onClose}
+            onSubmit={handleSubmit}
 
         >
             <input
                 id="name-input"
                 className="form__input form__input_string_name"
                 type="text"
+                value={name}
+                onChange={handleSetName}
                 name="user_name"
                 placeholder="Ваше имя"
                 maxLength={40}
@@ -24,6 +57,8 @@ export default function EditProfilePopup( props ) {
                 className="form__input form__input_string_job"
                 type="text"
                 name="user_job"
+                value={description}
+                onChange={handleSetDescription}
                 placeholder="О себе"
                 maxLength={200}
                 minLength={2}
