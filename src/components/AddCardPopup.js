@@ -28,9 +28,9 @@ export default function AddCardPopup(props, isOpen ) {
 
     return (
         <PopupWithForm
+            submitTitle={props.submitTitle}
             name="add-card"
             title="Новое место"
-            button="Создать"
             isOpen={props.isOpen}
             onClose={props.onClose}
             onSubmit={handleSubmit}
