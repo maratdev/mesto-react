@@ -65,7 +65,7 @@ function App() {
             .then((userData) => {
                 setCurrentUser(userData);
             })
-            .catch((err) => console.log(err));
+            .catch(console.error);
     }, []);
 
     // Инициализация Card
@@ -74,7 +74,7 @@ function App() {
             .then((initialCards) => {
                 setCards(initialCards);
             })
-            .catch((err) => console.log(err));
+            .catch(console.error)
     }, []);
 
     // ---------------------------------------------------------> Открыте изображение
@@ -86,14 +86,14 @@ function App() {
         const isLiked = likes.some((i) => i._id === currentUser._id);
         api.changeLikeCardStatus(cardId, !isLiked)
             .then((newCard) => {setCards((state) => state.map((element) => (element._id === cardId ? newCard : element)));})
-            .catch((err) => console.log(err));
+            .catch(console.error)
     }
     // Api---------------------------------------------------------> Удаление карточки
     function handleCardDelete() {
         setAddConfirmTitle("Сохраняем...")
         api.deleteCard(cardId)
             .then(() => { setCards(cards.filter(item => item._id !== cardId))})
-            .catch((error) => console.log(error))
+            .catch(console.error)
             .finally(() => {
                 closeAllPopups();
                 setAddConfirmTitle("Да")
@@ -114,7 +114,7 @@ function App() {
                 setCurrentUser(updateUser);
                 closeAllPopups();
             })
-            .catch((error) => console.log(error))
+            .catch(console.error)
             .finally(() => {
                 setEditSubmitTitle("Сохранить")
             });
@@ -127,7 +127,7 @@ function App() {
                 setCurrentUser(userAvatar);
                 closeAllPopups();
             })
-            .catch((error) => console.log(error))
+            .catch(console.error)
             .finally(() => {
                 setAvatarSubmitTitle("Обновить")
             })
@@ -139,7 +139,8 @@ function App() {
         api.saveCardInfo(inputValues).then(cardData => {
             setCards([cardData, ...cards]);
             closeAllPopups();
-        }).catch(error => console.log(error))
+        })
+            .catch(console.error)
             .finally(() => {
                 setAddSubmitTitle("Добавить")
             })
@@ -158,7 +159,9 @@ function App() {
                 onCardClick={handleCardClick}
                 cards={cards}
             />
-            <Footer/>
+            <Footer
+                date = {new Date().getFullYear()}
+            />
             {/*  Popup редактировать профиль*/}
             <EditProfilePopup
                 onUpdateUser={handleUpdateUser}

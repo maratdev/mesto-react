@@ -1,23 +1,23 @@
 
-export default function PopupWithForm( props ) {
+export default function PopupWithForm( {isOpen, onClose, name, title, onSubmit, submitTitle, children, elemClass} ) {
     return (
-        <div className={`popup popup_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
+        <div className={`popup popup_${name} ${isOpen ? 'popup_opened' : ''}`}>
             <div className="popup__container">
                 <button
-                    onClick={props.onClose}
+                    onClick={onClose}
                     type="button"
                     className="popup__close"
                     aria-label="Закрыть Popup"
                 />
-                <h3 className="popup__title">{props.title}</h3>
+                <h3 className="popup__title">{title}</h3>
                 <form
-                    className={`form form_${props.name}`}
-                    name={`popup__form-${props.name}`}
-                    onSubmit={props.onSubmit}
+                    className={`form form_${name}`}
+                    name={`popup__form-${name}`}
+                    onSubmit={onSubmit}
                 >
-                    {props.children}
-                    <button className={`form__input-btn ${props.class ? 'form__del-btn' : ''}`} type="submit">
-                        {props.submitTitle}
+                    {children}
+                    <button className={`form__input-btn ${elemClass ? 'form__del-btn' : ''}`} type="submit">
+                        {submitTitle}
                     </button>
                 </form>
             </div>

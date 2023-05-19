@@ -13,7 +13,7 @@ function ConfirmDeletePopup(props) {
             submitTitle={props.submitTitle}
             name="del-card"
             title="Вы уверены?"
-            class="true"
+            elemClass="true"
 
             isOpen={props.isOpen}
             onClose={props.onClose}

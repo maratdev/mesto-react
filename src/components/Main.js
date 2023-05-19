@@ -33,9 +33,9 @@ export default function Main(props) {
             </section>
             <section className="elements page__cards">
                 <ul className="elements__grids list">
-                    {props.cards.map((card, i) => (
+                    {props.cards.map((card) => (
                     <Card
-                        key={i}
+                        key={card._id}
                         name={card.name}
                         link={card.link}
                         ownerId={card.owner._id}

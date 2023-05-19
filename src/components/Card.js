@@ -19,7 +19,7 @@ export default function Card(card) {
     }
 
     return (
-        <li key={card.keys} className="elements__items">
+        <li key={card.cardId} className="elements__items">
             <article className="card">
                 {isOwn && (
                 <button

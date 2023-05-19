@@ -1,6 +1,6 @@
 # 📝 Проект: Mesto
 
-### _**Проектная работа №10. Курс «Веб-разработчик» от Яндекс Практикум.**_
+### _**Проектная работа №11. Курс «Веб-разработчик» от Яндекс Практикум.**_
 
 ## ⚙️ Функционал:
 - [x] Резиновая и адаптивная вёрстка
@@ -44,13 +44,13 @@
 * * *
 
 **🧩 Брифы:**
-* [Figma 10-го спринта](https://www.figma.com/file/PSdQFRHoxXJFs2FH8IXViF/JavaScript.-Sprint-9)
+* [Figma 11-го спринта](https://www.figma.com/file/5H3gsn5lIGPwzBPby9jAOo/Sprint-14-RU?node-id=0%3A1)
 
 **📄 Чеклисты:**
-* [Чеклист 10-го спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-10.pdf)
+* [Чеклист 11-го спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-11.pdf)
 
 **🌐 Проект на GitHub Pages:**
-* [gh-pages](https://maratdev.github.io/mesto/)
+* [gh-pages](https://maratdev.github.io/mesto-react/)
 
 * * *
 
