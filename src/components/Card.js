@@ -1,5 +1,5 @@
 import React, { useContext} from 'react';
-import { CurrentUserContext } from "../context/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 export default function Card(card) {
     const currentUser = useContext(CurrentUserContext);
     const isOwn = card.ownerId === currentUser._id;

@@ -8,7 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import ConfirmDeletePopup from './ConfirmDeletePopup'
 import api from "../utils/Api";
-import { CurrentUserContext } from "../context/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
     // Попапы
@@ -17,10 +17,11 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState(false);
+    // Контекст текущего пользователя
     const [currentUser, setCurrentUser] = useState({});
+
     const [cards, setCards] = useState([]);
     const [cardId, setCardId] = useState('');
-
     const [editSubmitTitle, setEditSubmitTitle] = useState("Сохранить");
     const [avatarSubmitTitle, setAvatarSubmitTitle] = useState("Обновить");
     const [addSubmitTitle, setAddSubmitTitle] = useState("Добавить");

@@ -36,6 +36,7 @@
   - API (Fetch)
 - [ReactJS](https://ru.legacy.reactjs.org/)
   - Реакт-хуки
+  - React Router
 - Git
 - Figma
 - Webpack
