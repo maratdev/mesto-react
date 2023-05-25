@@ -20,7 +20,7 @@ export default function EditProfilePopup( props, isOpen ) {
         setDescription(evt.target.value);
     }
 
-    function handleSubmit(evt) {
+    function handleSubmits(evt) {
         evt.preventDefault();
         props.onUpdateUser({
             userName,
@@ -32,10 +32,10 @@ export default function EditProfilePopup( props, isOpen ) {
         <PopupWithForm
             name="edit-user"
             title="Редактировать профиль"
-            submitTitle={props.submitTitle}
+            submitTitle={props.isLoading ? 'Сохраняем...' : 'Сохранить'}
             isOpen={props.isOpen}
             onClose={props.onClose}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmits}
 
         >
             <input

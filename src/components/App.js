@@ -11,30 +11,35 @@ import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
-    // Попапы
+    // -------------------------------------------Попапы------------------------------------/
+    // открытие попапа редактирования профиля
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+    // открытития попапа добавления карточек
     const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
+    // открытие попапа смены аватара
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+    // открытие попапа удаления карточки
     const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
+    // данные карточки на полный экран
     const [selectedCard, setSelectedCard] = useState(false);
+    // открытие попап карточки на весь экран
+    const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     // Контекст текущего пользователя
     const [currentUser, setCurrentUser] = useState({});
 
     const [cards, setCards] = useState([]);
     const [cardId, setCardId] = useState('');
-    const [editSubmitTitle, setEditSubmitTitle] = useState("Сохранить");
-    const [avatarSubmitTitle, setAvatarSubmitTitle] = useState("Обновить");
-    const [addSubmitTitle, setAddSubmitTitle] = useState("Добавить");
-    const [addConfirmTitle, setAddConfirmTitle] = useState("Да");
+    // рендер текста для кнопкок формы после нажатия на сабмит
+    const [isLoading, setIsLoading] = React.useState(false);
 
-    const handlePopup = isEditProfilePopupOpen || isAddCardPopupOpen || isEditAvatarPopupOpen || selectedCard || isConfirmDelCardPopupOpen
+    const handlePopup = isEditProfilePopupOpen || isAddCardPopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmDelCardPopupOpen
 
     function closeAllPopups() {
         setIsEditProfilePopupOpen(false);
         setIsAddCardPopupOpen(false);
         setIsEditAvatarPopupOpen(false);
         setIsConfirmDelCardPopupOpen(false);
-        setSelectedCard(null);
+        setIsImagePopupOpen(false);
     }
 
     // ----------------------------------------------------Попап закрытие по ESC и оверлею
@@ -80,6 +85,7 @@ function App() {
 
     // ---------------------------------------------------------> Открыте изображение
     function handleCardClick(card) {
+        setIsImagePopupOpen(true);
         setSelectedCard(card);
     }
     // Api---------------------------------------------------------> Like
@@ -91,13 +97,13 @@ function App() {
     }
     // Api---------------------------------------------------------> Удаление карточки
     function handleCardDelete() {
-        setAddConfirmTitle("Сохраняем...")
+        setIsLoading(true);
         api.deleteCard(cardId)
             .then(() => { setCards(cards.filter(item => item._id !== cardId))})
             .catch(console.error)
             .finally(() => {
                 closeAllPopups();
-                setAddConfirmTitle("Да")
+                setIsLoading(false);
             })
 
     }
@@ -109,7 +115,7 @@ function App() {
 
     // Api---------------------------------------------------------> Изменение данных пользователя
     function handleUpdateUser(userData) {
-        setEditSubmitTitle("Сохраняем...");
+        setIsLoading(true);
         api.saveDataInfo(userData)
             .then((updateUser) => {
                 setCurrentUser(updateUser);
@@ -117,12 +123,12 @@ function App() {
             })
             .catch(console.error)
             .finally(() => {
-                setEditSubmitTitle("Сохранить")
+                setIsLoading(false);
             });
     }
     // Api---------------------------------------------------------> Изменение аватара
     function handleUpdateAvatar(userData) {
-        setAvatarSubmitTitle("Обновляем...");
+        setIsLoading(true);
         api.saveDataProfile(userData)
             .then((userAvatar) => {
                 setCurrentUser(userAvatar);
@@ -130,20 +136,20 @@ function App() {
             })
             .catch(console.error)
             .finally(() => {
-                setAvatarSubmitTitle("Обновить")
+                setIsLoading(false);
             })
     }
 
     // Api---------------------------------------------------------> Добавление карточки
     function handleAddPlaceSubmit(inputValues) {
-        setAddSubmitTitle("Добавляем...");
+        setIsLoading(true);
         api.saveCardInfo(inputValues).then(cardData => {
             setCards([cardData, ...cards]);
             closeAllPopups();
         })
             .catch(console.error)
             .finally(() => {
-                setAddSubmitTitle("Добавить")
+                setIsLoading(false);
             })
     }
 
@@ -168,40 +174,38 @@ function App() {
                 onUpdateUser={handleUpdateUser}
                 isOpen={isEditProfilePopupOpen}
                 onClose={closeAllPopups}
-                submitTitle={editSubmitTitle}
+                isLoading={isLoading}
             />
             {/*  Popup добавление новой карточки*/}
             <AddCardPopup
                 isOpen={isAddCardPopupOpen}
                 onClose={closeAllPopups}
                 handleAddPlaceClick={handleAddPlaceSubmit}
-                submitTitle={addSubmitTitle}
+                isLoading={isLoading}
             />
             {/*  Popup редактирования аватарки*/}
             <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
                 onUpdateAvatar={handleUpdateAvatar}
-                submitTitle={avatarSubmitTitle}
+                isLoading={isLoading}
             />
 
             {/*  Popup изображения*/}
             <ImagePopup
+                isOpen={isImagePopupOpen}
                 onClose={closeAllPopups}
+                card={selectedCard}
             />
-
             {/*  Popup удаления карточки*/}
             <ConfirmDeletePopup
               isOpen={isConfirmDelCardPopupOpen}
               onClose={closeAllPopups}
               onConfirm={handleCardDelete}
-              submitTitle={addConfirmTitle}
+              isLoading={isLoading}
             >
             </ConfirmDeletePopup>
-            <ImagePopup
-              card={selectedCard}
-              onClose={closeAllPopups}>
-            </ImagePopup>
+
         </CurrentUserContext.Provider>
       </>
 

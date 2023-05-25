@@ -10,7 +10,7 @@ function ConfirmDeletePopup(props) {
 
     return(
         <PopupWithForm
-            submitTitle={props.submitTitle}
+            submitTitle={props.isLoading ? 'Сохраняем...' : 'Да'}
             name="del-card"
             title="Вы уверены?"
             elemClass="true"

@@ -1,9 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
+import useFormWithValidation from "../hooks/useFormWithValidation";
 
 export default function AddCardPopup(props, isOpen ) {
+
+    const {inputHandler, emailDirty, emailError, formValid } = useFormWithValidation();
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
+
 
    useEffect(() => {
         setName('');
@@ -11,10 +15,13 @@ export default function AddCardPopup(props, isOpen ) {
     }, [isOpen]);
 
     function handleNameChange(evt) {
+        inputHandler(evt);
         setName(evt.target.value);
+
     }
 
     function handleLinkChange(evt) {
+        inputHandler(evt);
         setLink(evt.target.value);
     }
 
@@ -26,16 +33,18 @@ export default function AddCardPopup(props, isOpen ) {
         });
     }
 
+
     return (
+
         <PopupWithForm
-            submitTitle={props.submitTitle}
+            submitTitle={props.isLoading ? 'Добавляем...' : 'Добавить'}
             name="add-card"
             title="Новое место"
             isOpen={props.isOpen}
             onClose={props.onClose}
             onSubmit={handleSubmit}
+            onSubmitValidation={formValid}
         >
-
             <input
                 id="image-input"
                 className="form__input form__input_string_place"
@@ -45,22 +54,20 @@ export default function AddCardPopup(props, isOpen ) {
                 name="card_name"
                 placeholder="Название"
                 maxLength={30}
-                minLength={2}
-                required
+                minLength={3}
             />
-            <span className="form__span-error image-input-error" />
+            <span className="form__span-error image-input-error" >{(emailError) && emailError}</span>
             <input
                 id="src-input"
                 className="form__input form__input_string_src"
                 defaultValue={link}
                 type="url"
                 onChange={handleLinkChange}
-                //https://loremflickr.com/g/1080/720/paris
                 name="card_src"
                 placeholder="Ссылка на картинку"
-                required
             />
-            <span className="form__span-error src-input-error" />
+            <span className="form__span-error src-input-error"></span>
+
         </PopupWithForm>
     )
 }

@@ -1,6 +1,6 @@
-export default function ImagePopup( {card, onClose}) {
+export default function ImagePopup( {card, isOpen, onClose}) {
     return (
-        <div className={`popup popup_img-card ${card ? 'popup_opened' : ''} `}>
+        <div className={`popup popup_img-card ${isOpen && 'popup_opened'} `}>
             <div className="popup__img-container">
                 <button
                     aria-label="Закрыть Popup"
@@ -8,8 +8,8 @@ export default function ImagePopup( {card, onClose}) {
                     className="popup__close"
                     onClick={onClose}
                 />
-                <img className="popup__zoom-image" src={card?.link} alt={card?.name} />
-                <h3 className="popup__zoom-title">{card?.name}</h3>
+                <img className="popup__zoom-image" src={card.link} alt={card.name} />
+                <h3 className="popup__zoom-title">{card.name}</h3>
             </div>
         </div>
     )
