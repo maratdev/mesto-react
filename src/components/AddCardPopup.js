@@ -4,7 +4,7 @@ import useFormWithValidation from "../hooks/useFormWithValidation";
 
 export default function AddCardPopup(props, isOpen ) {
 
-    const {inputHandler, emailDirty, emailError, formValid } = useFormWithValidation();
+    const {handleChange, resetForm, errors, isValid } = useFormWithValidation();
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
 
@@ -14,25 +14,28 @@ export default function AddCardPopup(props, isOpen ) {
         setLink('');
     }, [isOpen]);
 
-    function handleNameChange(evt) {
-        inputHandler(evt);
-        setName(evt.target.value);
+    // useEffect(() => {
+    //     resetForm();
+    // }, [resetForm])
 
+    function handleNameChange(evt) {
+        handleChange(evt);
+        setName(evt.target.value);
     }
 
     function handleLinkChange(evt) {
-        inputHandler(evt);
+        handleChange(evt);
         setLink(evt.target.value);
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
+        resetForm();
         props.handleAddPlaceClick({
             name: name,
             link: link,
         });
     }
-
 
     return (
 
@@ -43,30 +46,30 @@ export default function AddCardPopup(props, isOpen ) {
             isOpen={props.isOpen}
             onClose={props.onClose}
             onSubmit={handleSubmit}
-            onSubmitValidation={formValid}
+            onSubmitValidation={isValid}
         >
             <input
                 id="image-input"
                 className="form__input form__input_string_place"
                 type="text"
+                value={name || ''}
                 onChange={handleNameChange}
-                defaultValue={name}
                 name="card_name"
                 placeholder="Название"
                 maxLength={30}
-                minLength={3}
+                minLength={2}
             />
-            <span className="form__span-error image-input-error" >{(emailError) && emailError}</span>
+            <span className="form__span-error image-input-error" >  {errors.card_name || ''}  </span>
             <input
                 id="src-input"
                 className="form__input form__input_string_src"
-                defaultValue={link}
+                value={link || ''}
                 type="url"
                 onChange={handleLinkChange}
                 name="card_src"
                 placeholder="Ссылка на картинку"
             />
-            <span className="form__span-error src-input-error"></span>
+            <span className="form__span-error src-input-error">{errors.card_src || ''}</span>
 
         </PopupWithForm>
     )

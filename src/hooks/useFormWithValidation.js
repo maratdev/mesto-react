@@ -1,32 +1,32 @@
-import { useState, useEffect} from 'react';
+import { useState, useCallback } from 'react';
 
 export default function useFormWithValidation() {
-    const [emailError, setEmailError] = useState(false);
-    const [formValid, setFormValid] = useState(false);
+    const [values, setValues] = useState({});
+    const [errors, setErrors] = useState({});
+    const [isValid, setIsValid] = useState(false);
 
-
-    function inputHandler(evt){
+    const handleChange = (evt) => {
         const input = evt.target;
-        console.log(input.value)
+        console.log(input.validity)
 
-       // setFormValid(input.checkValidity())
+        const { value, name } = input;
+        setValues({ ...values, [name]: value }); // универсальный обработчик полей
+        setErrors({ ...errors, [name]: input.validationMessage }); // ошибок
+        setIsValid(input.closest('form').checkValidity()); // проверка валидности
 
-        if (!input.checkValidity()) {
-            setEmailError(input.validationMessage)
-            setFormValid(false)
-        }else {
-            if(input.value){
-                setFormValid(true)
-            }
-            setEmailError('')
-        }
+        // if(!input.validity.valid){
+        //     setIsValid(false)
+        // }
+    };
 
-    }
+    const resetForm = useCallback(
+        (newValues = {}, newErrors = {}, newIsValid = false) => { // это метод для сброса формы, полей, ошибок
+            setValues(newValues);
+            setErrors(newErrors);
+            setIsValid(newIsValid);
+        },
+        [setValues, setErrors, setIsValid]
+    );
 
-    useEffect(()=>{
-       // setFormValid(true)
-    }, [])
-
-
-    return {emailError, formValid, inputHandler };
+    return {handleChange, resetForm, errors, isValid };
 }

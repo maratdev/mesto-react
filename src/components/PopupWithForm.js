@@ -17,7 +17,10 @@ export default function PopupWithForm( {isOpen, onClose, name, title, onSubmit, 
                     onSubmit={onSubmit}
                 >
                     {children}
-                    <button disabled={!onSubmitValidation} className={`form__input-btn ${!onSubmitValidation ? 'form__input-btn_disabled' : ''} ${elemClass ? 'form__del-btn' : ''}`} type="submit">
+                    <button
+                        disabled={!onSubmitValidation}
+                        className={`form__input-btn ${!onSubmitValidation ? 'form__input-btn_disabled' : ''} ${elemClass ? 'form__del-btn' : ''}`}
+                        type="submit">
                         {submitTitle}
                     </button>
                 </form>
