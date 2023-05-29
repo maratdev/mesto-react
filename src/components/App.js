@@ -99,10 +99,11 @@ function App() {
     function handleCardDelete() {
         setIsLoading(true);
         api.deleteCard(cardId)
-            .then(() => { setCards(cards.filter(item => item._id !== cardId))})
+            .then(() => { setCards(cards.filter(item => item._id !== cardId))
+                closeAllPopups();
+            })
             .catch(console.error)
             .finally(() => {
-                closeAllPopups();
                 setIsLoading(false);
             })
 

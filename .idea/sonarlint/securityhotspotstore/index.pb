@@ -23,7 +23,5 @@ F
 src/components/Card.js,c\4\c43e8601c6fcd70c918e0e623d4a4201da3f2b0b
 F
 src/components/Main.js,1\8\1843f73c4aa3116ec540c905821cc57640c8b2f1
-<
-package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 L
 src/components/ImagePopup.js,7\9\79d905f5b01299c82976993965948d3fde23cef2
