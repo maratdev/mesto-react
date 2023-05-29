@@ -17,3 +17,13 @@ A
 webpack.config.js,d\5\d5595158cc48f9bf3e51b06f6e6805a8fd2d6262
 <
 src/index.js,f\9\f900edc44cb929c2267a16100a32851f6d5b477d
+A
+public/index.html,f\4\f43ecdf8d666ee908aacce037b4cd72159e4741b
+F
+src/components/Main.js,1\8\1843f73c4aa3116ec540c905821cc57640c8b2f1
+F
+src/components/Card.js,c\4\c43e8601c6fcd70c918e0e623d4a4201da3f2b0b
+<
+package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
+L
+src/components/ImagePopup.js,7\9\79d905f5b01299c82976993965948d3fde23cef2

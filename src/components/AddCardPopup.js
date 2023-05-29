@@ -1,41 +1,29 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect} from 'react';
 import PopupWithForm from "./PopupWithForm";
 import useFormWithValidation from "../hooks/useFormWithValidation";
 
-export default function AddCardPopup(props, isOpen ) {
+export default function AddCardPopup(props, isOpen) {
 
-    const {handleChange, resetForm, errors, isValid } = useFormWithValidation();
-    const [name, setName] = useState('');
-    const [link, setLink] = useState('');
+    const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation({
+        card_name: '',
+        card_src: ''
+    })
 
-
-   useEffect(() => {
-        setName('');
-        setLink('');
-    }, [isOpen]);
-
-    // useEffect(() => {
-    //     resetForm();
-    // }, [resetForm])
-
-    function handleNameChange(evt) {
-        handleChange(evt);
-        setName(evt.target.value);
-    }
-
-    function handleLinkChange(evt) {
-        handleChange(evt);
-        setLink(evt.target.value);
-    }
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        resetForm();
-        props.handleAddPlaceClick({
-            name: name,
-            link: link,
-        });
+        if (isValid) {
+            props.handleAddPlaceClick({
+                name: values.card_name,
+                link: values.card_src,
+            });
+        }
     }
+    useEffect(() => {
+        if (!isOpen) {
+            resetForm();
+        }
+    }, [isOpen])
 
     return (
 
@@ -46,30 +34,32 @@ export default function AddCardPopup(props, isOpen ) {
             isOpen={props.isOpen}
             onClose={props.onClose}
             onSubmit={handleSubmit}
-            onSubmitValidation={isValid}
+            isValid={isValid}
         >
             <input
                 id="image-input"
-                className="form__input form__input_string_place"
+                className={`form__input form__input_string_place ${!errors.card_name ? '' : 'form__input-error'}`}
                 type="text"
-                value={name || ''}
-                onChange={handleNameChange}
+                value={values.card_name || ''}
+                onChange={handleChange}
                 name="card_name"
                 placeholder="Название"
                 maxLength={30}
                 minLength={2}
+                required
             />
-            <span className="form__span-error image-input-error" >  {errors.card_name || ''}  </span>
+            <span className="form__span-error image-input-error" > {errors.card_name}</span>
             <input
                 id="src-input"
-                className="form__input form__input_string_src"
-                value={link || ''}
+                className={`form__input form__input_string_src ${!errors.card_src ? '' : 'form__input-error'}`}
+                value={values.card_src || ''}
                 type="url"
-                onChange={handleLinkChange}
+                onChange={handleChange}
                 name="card_src"
                 placeholder="Ссылка на картинку"
+                required
             />
-            <span className="form__span-error src-input-error">{errors.card_src || ''}</span>
+            <span className="form__span-error src-input-error">{errors.card_src}</span>
 
         </PopupWithForm>
     )

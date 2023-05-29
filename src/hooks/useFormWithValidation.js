@@ -7,16 +7,11 @@ export default function useFormWithValidation() {
 
     const handleChange = (evt) => {
         const input = evt.target;
-        console.log(input.validity)
-
         const { value, name } = input;
         setValues({ ...values, [name]: value }); // универсальный обработчик полей
         setErrors({ ...errors, [name]: input.validationMessage }); // ошибок
         setIsValid(input.closest('form').checkValidity()); // проверка валидности
 
-        // if(!input.validity.valid){
-        //     setIsValid(false)
-        // }
     };
 
     const resetForm = useCallback(
@@ -28,5 +23,5 @@ export default function useFormWithValidation() {
         [setValues, setErrors, setIsValid]
     );
 
-    return {handleChange, resetForm, errors, isValid };
+    return {values, handleChange, resetForm, errors, isValid, setValues };
 }

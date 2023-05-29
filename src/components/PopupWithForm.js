@@ -1,6 +1,6 @@
 
-export default function PopupWithForm( {isOpen, onClose, name, title, onSubmit, submitTitle, children, elemClass, onSubmitValidation} ) {
-   // console.log(onSubmitValidation)
+export default function PopupWithForm( {isOpen, onClose, name, title, onSubmit, submitTitle, children, elemClass, isValid} ) {
+   //console.log(isValid)
     return (
         <div className={`popup popup_${name} ${isOpen ? 'popup_opened' : ''}`}>
             <div className="popup__container">
@@ -18,8 +18,8 @@ export default function PopupWithForm( {isOpen, onClose, name, title, onSubmit, 
                 >
                     {children}
                     <button
-                        disabled={!onSubmitValidation}
-                        className={`form__input-btn ${!onSubmitValidation ? 'form__input-btn_disabled' : ''} ${elemClass ? 'form__del-btn' : ''}`}
+                        disabled={!isValid}
+                        className={`form__input-btn ${!isValid ? 'form__input-btn_disabled' : ''} ${elemClass ? 'form__del-btn' : ''}`}
                         type="submit">
                         {submitTitle}
                     </button>

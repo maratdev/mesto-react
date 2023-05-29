@@ -1,31 +1,44 @@
-import React, { useEffect, useState, useContext} from 'react';
+import React, { useEffect, useContext} from 'react';
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import useFormWithValidation from "../hooks/useFormWithValidation";
 
 export default function EditProfilePopup( props, isOpen ) {
 
-    const [userName, setUserName] = useState("");
-    const [description, setDescription] = useState("");
+    const {values, handleChange, errors, isValid, resetForm, setValues} = useFormWithValidation({
+        user_name: '',
+        user_job: ''
+    })
+
     const currentUser = useContext(CurrentUserContext);
 
     useEffect(() => {
-        setUserName(currentUser.name);
-        setDescription(currentUser.about);
-    }, [currentUser, isOpen]);
+        if (currentUser.name && currentUser.about) {
+            setValues({
+                user_name: currentUser.name,
+                user_job: currentUser.about
+            });
+        }
+        if (!isOpen) {
+            resetForm();
+        }
+    }, [isOpen, currentUser])
 
-    function handleSetName(evt) {
-        setUserName(evt.target.value);
-    }
-    function handleSetDescription(evt) {
-        setDescription(evt.target.value);
-    }
 
-    function handleSubmits(evt) {
+    useEffect(() => {
+        if (!isOpen) {
+            resetForm();
+        }
+    }, [isOpen])
+
+    function handleSubmit(evt) {
         evt.preventDefault();
-        props.onUpdateUser({
-            userName,
-            about: description,
-        });
+        if (isValid) {
+            props.onUpdateUser({
+                name: values.user_name,
+                about: values.user_job,
+            });
+        }
     }
 
     return (
@@ -35,33 +48,36 @@ export default function EditProfilePopup( props, isOpen ) {
             submitTitle={props.isLoading ? 'Сохраняем...' : 'Сохранить'}
             isOpen={props.isOpen}
             onClose={props.onClose}
-            onSubmit={handleSubmits}
-
+            onSubmit={handleSubmit}
+            isValid={isValid}
         >
+
             <input
                 id="name-input"
-                className="form__input form__input_string_name"
+                className={`form__input form__input_string_name ${!errors.user_name ? '' : 'form__input-error'}`}
                 type="text"
-                defaultValue={userName}
-                onChange={handleSetName}
+                value={values.user_name || ''}
+                onChange={handleChange}
                 name="user_name"
                 placeholder="Ваше имя"
                 maxLength={40}
                 minLength={2}
+                required
             />
-            <span className="form__span-error name-input-error" />
+            <span className="form__span-error name-input-error" > {errors.user_name} </span>
             <input
                 id="user-job-input"
-                className="form__input form__input_string_job"
+                className={`form__input form__input_string_job ${!errors.user_job ? '' : 'form__input-error'}`}
                 type="text"
                 name="user_job"
-                defaultValue={description}
-                onChange={handleSetDescription}
+                value={values.user_job || ''}
+                onChange={handleChange}
                 placeholder="О себе"
                 maxLength={200}
                 minLength={2}
+                required
             />
-            <span className="form__span-error user-job-input-error" />
+            <span className="form__span-error user-job-input-error" >{errors.user_job}</span>
 
         </PopupWithForm>
     )

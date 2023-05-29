@@ -115,6 +115,7 @@ function App() {
 
     // Api---------------------------------------------------------> Изменение данных пользователя
     function handleUpdateUser(userData) {
+        console.log(userData)
         setIsLoading(true);
         api.saveDataInfo(userData)
             .then((updateUser) => {
